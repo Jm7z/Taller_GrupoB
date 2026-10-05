@@ -3,14 +3,18 @@ TALLER GRUPO B — APLICACIÓN EDUCATIVA DE CONCENTRACIÓN
 
 Entrega local: Taller_GrupoB.zip. Proyecto Python con Streamlit y Plotly para
 generar mercados hipotéticos, comparar un caso y practicar sus indicadores.
-No determina automáticamente una conducta anticompetitiva. La aplicación no
-está publicada ni tiene una URL pública verificada.
+No determina automáticamente una conducta anticompetitiva. Las fuentes están
+publicadas en https://github.com/Jm7z/Taller_GrupoB y se observó el arranque de
+la aplicación en https://taller-grupob.streamlit.app/. El ajuste público fue
+comprobado y el usuario confirmó que puede simular desde una ventana privada
+sin iniciar sesión; esta última comprobación fue reportada por el usuario.
 
 INSTALACIÓN LOCAL EN WINDOWS
 ----------------------------
 1. Instalar Python 3.12 de 64 bits con pip y el lanzador py. La versión utilizada
-   para comprobar esta entrega es Python 3.12.14. No se ha comprobado esta
-   entrega con otras versiones de Python ni en otros sistemas operativos.
+   para las pruebas locales es Python 3.12.14. En los logs del despliegue se
+   observó Python 3.12.15 en Linux. La suite no se ejecutó en Community Cloud;
+   no se deben equiparar ambas comprobaciones.
 2. Extraer TODO Taller_GrupoB.zip en una carpeta nueva. No ejecutar dentro del
    ZIP. Abrir PowerShell en esa carpeta, donde se encuentran app.py y
    requirements.txt. Si es necesario, entrar con:
@@ -65,6 +69,27 @@ AppTest sobre ScriptRunContext pueden aparecer al probar sin servidor.
 COMPROBACIONES.md distingue las pruebas ejecutadas de lo pendiente. BITACORA.md
 registra etapas reales; las referencias históricas no son pruebas repetidas ni
 sustituyen un enlace compartido de la conversación.
+
+Comprobación desde el ZIP candidato: extracción nueva en extraido_candidato y
+entorno independiente Python 3.12.14, sin paquetes de usuario. Se reinstalaron
+las dependencias desde el requirements.txt EXTRAÍDO mediante wheels de caché
+local en modo offline; instalación y pip check terminaron con código 0.
+Se aprobaron las 116 pruebas en 20,166 segundos con -I -B: fuentes importadas
+desde la extracción y bibliotecas desde el entorno nuevo, sin archivos de
+desarrollo. El arranque desde esa extracción respondió HTTP 200 tanto en /
+como en /_stcore/health. En el navegador real, Ejemplo y Simular produjeron una
+muestra vigente de 1000 mercados, CR2=70%, IHH=3000,00 puntos y etiqueta CR2
+con percentil CR2 de 23,4%; portada y controles de evaluación visibles sin excepción.
+Ese percentil es de CR2, distinto del 17,1% observado para IHH.
+
+El ZIP candidato tenía 26 archivos, nombres únicos y CRC correcto; sus bytes
+se cotejaron con las fuentes. Se repitió en otra extracción nueva, extraido_cierre:
+reinstalación desde su requirements.txt y pip check aprobados; 116 pruebas
+aisladas en 19,300 s, sin fallos; servidor extraído con raíz y salud HTTP 200.
+Código, configuración, dependencias y pruebas idénticos al candidato. El cierre
+documental registra estos resultados y se reempaqueta sin modificar fuentes
+ejecutables. El resumen de entrega registra el cotejo y comprobación adicional
+del ZIP definitivo correspondiente a GitHub, sin incluir cachés ni entornos.
 
 DEPENDENCIAS FIJADAS
 -------------------
@@ -243,14 +268,73 @@ PUBLICACIÓN EN GITHUB Y STREAMLIT COMMUNITY CLOUD
 ------------------------------------------------
 Estado comprobado el 5 de octubre de 2026:
   Cuenta GitHub reconocida por el conector: Jm7z.
-  Repositorio público Taller_GrupoB: creación comprobada; fuentes en preparación.
+  Repositorio público Taller_GrupoB: fuentes publicadas; 26 archivos cotejados
+  byte a byte con la carpeta limpia de fuentes antes de esta actualización.
   URL real de GitHub: https://github.com/Jm7z/Taller_GrupoB
   Rama comprobada: main; conector con permiso admin/push.
-  URL real de aplicación: pendiente de despliegue y comprobación.
-  Python en Cloud: seleccionar 3.12; parche exacto aún no observado en logs.
-  Commit servido por Cloud y acceso privado/anónimo: pendientes.
-No sustituir estas líneas por direcciones supuestas. Python local 3.12.14 no
-demuestra que Cloud instale el mismo parche. No se ha enviado ningún correo.
+  Commit de código publicado y cotejado:
+  0868937507fa00a2c7effe9dc4dabbc86514d4a6.
+  URL real de aplicación: https://taller-grupob.streamlit.app/
+  Python seleccionado en Cloud: 3.12; versión exacta observada en logs: 3.12.15.
+  Pins de requirements.txt instalados sin modificación; arranque registrado
+  en logs el 2026-10-05 a las 17:26:22 UTC (14:26:22 America/Santiago).
+  Sharing comprobado: This app is public and searchable.
+  Reinicio comprobado en logs: desconexión 17:35:15 UTC y arranque del servidor
+  17:35:59.355 UTC (14:35:59.355 America/Santiago), el mismo día, con Python 3.12.15.
+  Tras el reinicio, una sesión nueva simuló 1000 mercados y completó el 100%.
+  Acceso InPrivate/incógnito sin sesión: el usuario informó, tras Ctrl+F5,
+  "Sí, ahora simula correctamente sin iniciar sesión". No se presenta como
+  observación directa de una ventana privada realizada por la herramienta.
+  Suite en Linux/Community Cloud: no ejecutada.
+  Documentación de cierre incluida junto a las fuentes en main; el resumen de
+  entrega identifica el commit final y el cotejo del ZIP con el repositorio.
+  SHA exacto del proceso Cloud: pendiente; los logs disponibles no lo expusieron.
+El SHA anterior identifica el código cotejado, no demuestra por sí solo el SHA
+del proceso activo en Cloud. Python local 3.12.14 no coincide con el parche
+observado en Cloud. No se ha enviado ningún correo.
+
+Comprobaciones en la interfaz desplegada: N=4, k=2, 1000 iteraciones y semilla 42;
+ejemplo 40-30-20-10; CR2=70%, IHH interno=3000.0000000000005 puntos y percentil IHH
+17,1% (171 de 1000 mercados con IHH menor o igual). Se comprobó clasificación
+Moderada incorrecta, Alta correcta y respuesta numérica CR2 70,00 correcta.
+El usuario informó mediante captura un error de callback inesperado, aunque
+otra sesión ejecutó correctamente la simulación y el código remoto coincidía.
+Después del reinicio comprobado, una sesión nueva simuló correctamente y el
+usuario confirmó lo mismo sin sesión. No se modificaron las fuentes por este
+incidente: la firma del callback y el código publicado se cotejaron. La causa
+exacta del error no quedó demostrada; la recuperación observada no la demuestra.
+
+Otras comprobaciones realizadas en la aplicación remota:
+  - N=2,k=2,M=1000: distribución constante a precisión numérica. Cambiar a k=1
+    y M=5000 marcó la muestra desactualizada; volver a simular funcionó.
+  - N=100,k=100,M=5000: simulación correcta. El botón del ejemplo pasó de N=100
+    a N=4, limitó k a 4 y bloqueó la comparación por muestra incompatible.
+    Se volvió después a k=2 y M=1000.
+  - Edición manual 40->30: suma 90%, falta 10%; cuotas rechazadas, sin etiqueta
+    del caso y con respuestas bloqueadas. Se conservó la muestra y el tiempo
+    de motor.
+    Dos pulsaciones de caso aleatorio dieron cuotas diferentes, conservaron
+    la referencia de simulación y limpiaron la retroalimentación.
+  - CSV descargados desde el navegador: muestra 1000 filas x 11 columnas y caso
+    4 filas x 2 columnas. Lectura posterior con pandas y float_precision="round_trip":
+    diferencia máxima 0,0 respecto del motor local en CRk (%), IHH (puntos), ID,
+    IE e IE/ln(N). Metadatos N=4,k=2,semilla=42,NumPy=2.3.5; cuotas del caso
+    exactamente 40,30,20,10. Esto no supone ejecutar la suite completa en Linux.
+  - Los cuatro histogramas se revisaron en escritorio 960x900 y viewport móvil
+    390x844: etiquetas dentro del gráfico en dos líneas, leyenda y ejes visibles,
+    sin desbordamiento horizontal a 390 px. Se emuló el ancho; no se usó teléfono
+    físico. La barra de herramientas Plotly activa puede cubrir parte del título
+    en móvil; se registra esta limitación sin modificar el código.
+  - Hover del histograma IHH observado: Simulación, intervalo 2938,57-3152,53,
+    109 mercados. Hover de la línea verificado en navegador: Caso: 3000 puntos
+    (0-10000), con percentil 17,10 mostrado en su información emergente.
+  - Progreso final observado: 5000/5000, 100%. No se capturaron visualmente estados
+    intermedios; el avance por lotes, callback y limpieza ante errores tienen
+    cobertura en las 13 pruebas de tests/test_progreso.py incluidas en la suite.
+La confirmación del SHA exacto del proceso Cloud permanece pendiente porque
+los logs disponibles no lo expusieron. Las dos extracciones verificadas se
+describen en PRUEBAS; el resumen de entrega registra además el cotejo del ZIP
+definitivo y su ejecución tras la publicación de estos documentos.
 
 La carpeta de fuentes preparada contiene únicamente archivos vigentes. Los
 módulos, fórmulas, generadores, cuatro series compactas, CSV y evaluación se
@@ -258,9 +342,13 @@ conservan. requirements.txt no cambió. .gitignore se comprobó con git check-ig
 entornos, cachés, temporales, logs, ZIP y secretos quedan excluidos; app.py,
 README.txt, requirements.txt, configuración y pruebas permanecen publicables.
 .streamlit/config.toml no fija dirección, puerto ni certificados: Cloud gestiona
-el servidor y HTTPS. Se comprobó su lectura con Streamlit local, no en Cloud.
+el servidor y HTTPS. Se comprobó su lectura local; el despliegue con el archivo
+publicado arrancó. Esto no demuestra que Cloud respete ajustes que sobrescribe.
 
-A. Crear el repositorio (paso de cuenta)
+A. Repositorio existente y reproducción de la publicación
+El repositorio público indicado ya existe y sus fuentes fueron comprobadas.
+No es necesario crear otro para continuar. Si se reproduce el procedimiento
+en otra cuenta, los pasos oficiales son:
 1. En el navegador de Windows, iniciar sesión personalmente en https://github.com.
 2. Abrir https://github.com/new; Owner: Jm7z; Repository name: Taller_GrupoB;
    visibilidad Public. Marcar Add a README file para disponer de una rama inicial.
@@ -268,7 +356,7 @@ A. Crear el repositorio (paso de cuenta)
 3. Si se utiliza el conector de Codex, habilitar el nuevo repositorio en el acceso
    de su integración de GitHub cuando sea necesario. No pegar contraseñas o
    tokens en conversaciones ni archivos. Tras la creación comprobar el nombre,
-   visibilidad pública y rama real; aquí se propone main.
+   visibilidad pública y rama real. En este proyecto se comprobó main.
 
 B. Subir desde PowerShell si debe hacerlo el usuario
 Instalar Git for Windows desde https://git-scm.com/download/win, con Git Credential
@@ -282,9 +370,9 @@ GitHub CLI no es una dependencia de la app y no es necesario si se usa GCM.
 No utilizar una contraseña de GitHub como contraseña de Git ni introducir tokens
 en la conversación. Completar personalmente 2FA, CAPTCHA o aceptación de términos.
 
-Con el repositorio ya creado e inicializado, el siguiente procedimiento evita
-conflictos con su README inicial. Ajustar únicamente las rutas locales. La URL
-del comando es el destino previsto, NO prueba de que exista hasta comprobarlo:
+Con el repositorio existente, el siguiente procedimiento permite actualizarlo
+desde una carpeta limpia extraída. Ajustar únicamente las rutas locales. La URL
+del comando corresponde al repositorio público comprobado:
 
     $fuentesTaller = "C:\ruta\a\Taller_GrupoB_extraido"
     $repoTaller = "C:\ruta\a\Taller_GrupoB_git"
@@ -317,12 +405,13 @@ C. Desplegar en Streamlit (pasos de cuenta)
    de acceso vincula el inicio a sus términos: esa aceptación debe hacerla el
    usuario. Conectar GitHub en Workspaces > Connect GitHub account y autorizar
    Streamlit mediante su flujo oficial. Seleccionar el workspace Jm7z.
-2. Create app > Yup, I have an app. Repositorio: Taller_GrupoB; rama: la publicada
-   y comprobada; Main file path: app.py. App URL: solicitar taller-grupob.
+2. Create app > Deploy from repo. Repositorio: Taller_GrupoB; rama: main;
+   Main file path: app.py. App URL: taller-grupob fue aceptado en este despliegue.
    Si no está disponible, escoger un nombre aceptado y registrar la URL real.
-3. Advanced settings > Python version > 3.12 > Save. Verificar esa elección antes
-   de Deploy. No hay secretos que configurar. Cambiar Python tras desplegar
-   requiere eliminar/recrear el despliegue; no hacerlo silenciosamente.
+3. En las opciones avanzadas de despliegue, Python version > 3.12 > Save.
+   Verificar esa elección antes de Deploy; en este despliegue se comprobó 3.12
+   y los logs mostraron 3.12.15. No hay secretos que configurar. Cambiar Python
+   tras desplegar requiere eliminar/recrear el despliegue; no hacerlo silenciosamente.
 4. Deploy. Revisar logs: repositorio/rama/archivo, versión Python exacta que figure,
    instalación de requirements.txt y arranque. Cloud usa Linux y puede usar uv
    con fallback pip. No cambiar pins sin un error concreto demostrado.
