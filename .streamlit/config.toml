@@ -1,0 +1,15 @@
+[theme]
+base = "light"
+primaryColor = "#2563A6"
+backgroundColor = "#F5F8FC"
+secondaryBackgroundColor = "#E9F2F5"
+textColor = "#18364B"
+font = "sans serif"
+borderColor = "#DCE8EF"
+
+[browser]
+gatherUsageStats = false
+
+[server]
+headless = true
+# La dirección la elige el entorno. En local, usar --server.address 127.0.0.1.

@@ -1,0 +1,47 @@
+# Entornos y paquetes locales
+.venv/
+venv/
+env/
+.env/
+__pypackages__/
+
+# Cachés y resultados generados
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+.tox/
+.nox/
+*.log
+registro_pruebas.txt
+rendimiento.json
+
+# Temporales y paquetes de entrega
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+~$*
+*.zip
+entrega/
+_verificacion*/
+
+# Credenciales: nunca publicarlas
+.env
+.env.*
+!.env.example
+.streamlit/secrets.toml
+secrets.toml
+*.pem
+*.key
+
+# Residuos de sistemas operativos
+.DS_Store
+Thumbs.db
+Desktop.ini
