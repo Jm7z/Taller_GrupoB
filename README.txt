@@ -1,20 +1,28 @@
 TALLER GRUPO B — APLICACIÓN EDUCATIVA DE CONCENTRACIÓN
 ====================================================
 
-Entrega local: Taller_GrupoB.zip. Proyecto Python con Streamlit y Plotly para
-generar mercados hipotéticos, comparar un caso y practicar sus indicadores.
-No determina automáticamente una conducta anticompetitiva. Las fuentes están
-publicadas en https://github.com/Jm7z/Taller_GrupoB y se observó el arranque de
-la aplicación en https://taller-grupob.streamlit.app/. El ajuste público fue
-comprobado y el usuario confirmó que puede simular desde una ventana privada
-sin iniciar sesión; esta última comprobación fue reportada por el usuario.
+Proyecto Python con Streamlit y Plotly para generar mercados hipotéticos,
+comparar un caso y practicar sus indicadores. No determina automáticamente una
+conducta anticompetitiva.
+
+Repositorio: https://github.com/Jm7z/Taller_GrupoB
+Aplicación existente: https://taller-grupob.streamlit.app/
+Entrega: Taller_GrupoB.zip, con fuentes, dependencias, configuración y pruebas.
+
+La publicación anterior fue comprobada el 5 de octubre de 2026. La corrección
+local de CRk cuando k=N está implementada y verificada. El cierre actual añade
+ayudas, explicación del percentil, resumen del IHH para muchas empresas y
+advertencia breve de recursos. Las comprobaciones de esa actualización, su
+publicación y el ZIP final se registran por separado en COMPROBACIONES.md;
+no se atribuyen a ella las pruebas del despliegue anterior.
 
 INSTALACIÓN LOCAL EN WINDOWS
 ----------------------------
 1. Instalar Python 3.12 de 64 bits con pip y el lanzador py. La versión utilizada
    para las pruebas locales es Python 3.12.14. En los logs del despliegue se
-   observó Python 3.12.15 en Linux. La suite no se ejecutó en Community Cloud;
-   no se deben equiparar ambas comprobaciones.
+   observó Python 3.12.15 en Linux en el despliegue anterior. La versión del
+   nuevo despliegue debe confirmarse en sus propios logs. La suite no se
+   ejecutó en Community Cloud; no se deben equiparar ambas comprobaciones.
 2. Extraer TODO Taller_GrupoB.zip en una carpeta nueva. No ejecutar dentro del
    ZIP. Abrir PowerShell en esa carpeta, donde se encuentran app.py y
    requirements.txt. Si es necesario, entrar con:
@@ -70,51 +78,71 @@ COMPROBACIONES.md distingue las pruebas ejecutadas de lo pendiente. BITACORA.md
 registra etapas reales; las referencias históricas no son pruebas repetidas ni
 sustituyen un enlace compartido de la conversación.
 
-Comprobación desde el ZIP candidato: extracción nueva en extraido_candidato y
-entorno independiente Python 3.12.14, sin paquetes de usuario. Se reinstalaron
-las dependencias desde el requirements.txt EXTRAÍDO mediante wheels de caché
-local en modo offline; instalación y pip check terminaron con código 0.
-Se aprobaron las 116 pruebas en 20,166 segundos con -I -B: fuentes importadas
-desde la extracción y bibliotecas desde el entorno nuevo, sin archivos de
-desarrollo. El arranque desde esa extracción respondió HTTP 200 tanto en /
-como en /_stcore/health. En el navegador real, Ejemplo y Simular produjeron una
-muestra vigente de 1000 mercados, CR2=70%, IHH=3000,00 puntos y etiqueta CR2
-con percentil CR2 de 23,4%; portada y controles de evaluación visibles sin excepción.
-Ese percentil es de CR2, distinto del 17,1% observado para IHH.
+Corrección local de CRN: 128 pruebas aprobadas en 26,212 s, con Python 3.12.14.
+Incluye las 116 anteriores y 12 regresiones específicas. La comparación contra
+el estado anterior realizó 135 verificaciones de cuotas, indicadores y
+percentiles: para k<N se conservaron los resultados; para k=N solo cambió CRN.
+N=100, k=100, M=1000, semilla 42 y cien cuotas de 1 %: antes, percentil 67,2 % y
+CR simulado entre 0,9999999999999989 y 1,0000000000000009; después, cada CRN es
+1,0 exacto y el percentil 100,0 %. No se modificó el percentil general.
 
-El ZIP candidato tenía 26 archivos, nombres únicos y CRC correcto; sus bytes
-se cotejaron con las fuentes. Se repitió en otra extracción nueva, extraido_cierre:
-reinstalación desde su requirements.txt y pip check aprobados; 116 pruebas
-aisladas en 19,300 s, sin fallos; servidor extraído con raíz y salud HTTP 200.
-Código, configuración, dependencias y pruebas idénticos al candidato. El cierre
-documental registra estos resultados y se reempaqueta sin modificar fuentes
-ejecutables. El resumen de entrega registra el cotejo y comprobación adicional
-del ZIP definitivo correspondiente a GitHub, sin incluir cachés ni entornos.
+Estos resultados corresponden al parche local anterior a las nuevas ayudas.
+Después de incorporarlas, la suite actual aprobó 136 de 136 pruebas en
+21,542 s; test_claridad.py aprobó 8 de 8 en 2,916 s. El entorno local fue
+Python 3.12.14 con NumPy 2.3.5. La publicación, comprobación pública e
+instalación/ejecución desde una extracción nueva del ZIP definitivo permanecen
+pendientes hasta documentar su ejecución real. Una extracción de la publicación
+anterior aprobó 116 pruebas en 20,011 s, instalación offline y pip check en un
+entorno independiente, y arranque HTTP 200; no acredita la nueva versión.
+
+El candidato actual de prepublicación contiene 30 archivos, con CRC válido y
+bytes idénticos a las fuentes. Se extrajo en una carpeta nueva y se creó otro
+entorno Python 3.12.14, sin paquetes del sistema ni del usuario. Se instalaron
+40 paquetes offline desde wheels existentes y el requirements.txt extraído;
+los pins se conservaron y pip check informó "No broken requirements found".
+Con imports aislados (modo -I), la extracción aprobó 136 de 136 pruebas en
+21,9598442 s, sin errores ni fallos. Las fuentes se importaron únicamente desde
+esa extracción y las dependencias desde su entorno nuevo. Esto verifica el
+candidato de prepublicación, no el ZIP definitivo ni el despliegue actualizado.
+El servidor iniciado desde esa extracción respondió HTTP 200 en raíz y salud,
+y el navegador mostró los controles y simuló el caso predeterminado sin error:
+N=4,k=2,M=1000,semilla42, cuotas iguales, CR2=50 %, percentil0 %, progreso
+1000/1000 al100 %, línea y etiqueta del caso visibles. La verificación usó
+127.0.0.1:8513; la instalación normal del manual utiliza el puerto8501.
 
 DEPENDENCIAS FIJADAS
 -------------------
 NumPy 2.3.5, pandas 3.0.1, Plotly 6.9.0, Streamlit 1.65.0 y PyArrow 21.0.0.
 requirements.txt contiene exactamente los pins vigentes. pip instala también
-sus dependencias transitivas. No se cambiaron fórmulas ni dependencias para
-preparar este paquete. La configuración de tema está en .streamlit/config.toml.
+sus dependencias transitivas. Los pins no cambian. El único ajuste matemático
+de este cierre es aplicar la identidad exacta CRN=1 a cuotas ya validadas.
+La configuración de tema está en .streamlit/config.toml.
 
 USO
 ---
 Configurar N (2 a 100), k (1 a N), iteraciones (inicialmente 1000) y semilla.
 Pulsar Simular mercados para ejecutar Monte Carlo; el progreso muestra lotes
-completados/total. Se confirma el 100% tras recibir un resultado válido y se
+completados/total. Se confirma el 100 % tras recibir un resultado válido y se
 limpia la barra ante errores.
 
 Introducir N porcentajes, usar cuotas iguales, generar un caso aleatorio o
 cargar Ejemplo 40–30–20–10. Este último establece N=4 y limita k a 4. Se muestran
-la suma y la diferencia con 100%. Cuotas inválidas bloquean comparación y
+la suma y la diferencia con 100 %. Cuotas inválidas bloquean comparación y
 evaluación; no se normalizan silenciosamente. Cambiar N actualiza la tabla.
 
-Las tarjetas presentan CRk, IHH, ID e IE. El gráfico de cuotas usa porcentajes.
+Las tarjetas presentan CRk, IHH, ID e IE. La ayuda del selector explica el
+indicador elegido. El gráfico de cuotas usa porcentajes.
 El histograma elegido conserva línea, leyenda y hover del caso e incluye una
 etiqueta de dos líneas con valor, unidad y percentil real. Se amplía el rango
 si el caso queda fuera; una distribución constante se representa sin fallar.
 La etiqueta no se muestra para casos inválidos.
+
+La lectura del percentil indica qué porcentaje de la muestra tiene un valor
+menor o igual al del caso e incluye empates. Compara mercados con el mismo N
+bajo Dirichlet(1,...,1), no un umbral normativo. Para IE, un percentil alto
+indica mayor entropía respecto de la muestra, no mayor concentración.
+Cuando k=N, CRk es 100 % en todos los mercados: no distingue concentración,
+todos los valores empatan y el percentil inclusivo es exactamente 100 %.
 
 Editar el caso o cambiar el gráfico no ejecuta Monte Carlo. La sesión conserva
 solo la última muestra compacta. Cambiar N, k, iteraciones o semilla invalida
@@ -132,6 +160,13 @@ limpia los resultados que corresponden. La pregunta numérica CRk admite coma o
 punto decimal, rechaza no finitos y usa tolerancia inclusiva de 0,01 puntos
 porcentuales; explica la suma de las k mayores cuotas.
 
+Para N<=12 se muestra el desarrollo de la suma de cuadrados. Para N>12, el
+resumen muestra N, las cinco cuotas mayores y el IHH calculado con TODAS las
+cuotas. El desarrollo íntegro y la tabla de aportes siguen disponibles en un
+desplegable. El resumen es presentación: no recalcula el IHH ni cambia el
+contrato del evaluador. El percentil de evaluación usa siempre la muestra de
+IHH, aunque el histograma seleccionado represente otro indicador.
+
 FÓRMULAS, VALIDACIÓN Y UNIDADES
 ------------------------------
 Se calculan con proporciones s_i=porcentaje_i/100, conservando los originales.
@@ -141,6 +176,8 @@ cada fila simulada. La tolerancia contempla representación float64; no repara,
 normaliza ni redondea entradas. NumPy y math.fsum pueden diferir unos pocos ulps.
 
 CRk = suma de las k cuotas mayores. Interno: proporción; pantalla/CSV: %.
+Tras validar cuotas y k, si k=N se aplica CRN=1,0 exacto en escalar/vectorizado.
+Esta identidad no modifica las cuotas originales ni el cierre tolerado.
 IHH decimal = suma(s_i**2). IHH en puntos = 10000*IHH decimal.
 ID de García Alba = suma(s_i**4)/(suma(s_i**2))**2, adimensional.
 IE de Shannon = -suma(s_i*ln(s_i)), en nats; aporte cero si s_i=0.
@@ -152,8 +189,11 @@ Incluye todos los empates exactos, sin interpolación ni tolerancia artificial.
 Depende de la muestra. Más iteraciones reducen su variabilidad estadística;
 no garantizan que el valor cambie monótonamente. Repetir caso, configuración y
 semilla en el mismo entorno permite reproducirlo. No se garantiza la misma
-secuencia entre versiones distintas de NumPy. CRk con k=N es matemáticamente
-100%; se conservan los residuos float64, sin forzar empates o percentiles.
+secuencia entre versiones distintas de NumPy. CRN usa la identidad exacta de
+mercado completo: todos sus valores son 1,0 y el percentil resulta 100,0 % por la
+misma comparación <=, sin excepciones ni tolerancias en la función de percentil.
+Para k<N se conservan las sumas originales sin redondear. No se corrigen de
+forma general los residuos de representación de otros indicadores.
 
 Evaluación didáctica del IHH en puntos, basada en la guía FNE de mayo de 2022:
   Baja: IHH < 1500.
@@ -168,7 +208,7 @@ regulatorios para CRk, ID o IE.
 SUPUESTO DE SIMULACIÓN Y LÍMITES
 ------------------------------
 Mercados independientes Dirichlet(1,...,1) con default_rng(semilla): cuotas en
-[0,1] que suman el 100% del mercado. Supone empresas simétricas y uniformidad
+[0,1] que suman el 100 % del mercado. Supone empresas simétricas y uniformidad
 en el simplex de cuotas, no uniformidad de sus indicadores. No reproduce
 automáticamente un sector real. Normalizar uniformes no da la misma distribución;
 exponenciales normalizadas sí equivalen a Dirichlet(1). Lognormales y multinomiales
@@ -179,6 +219,10 @@ La interfaz retiene cuatro arrays float64: 32*M bytes, aproximadamente 3,05 MiB
 al máximo, además de lotes temporales, bibliotecas, gráficos y CSV. Tiempo, CPU
 y memoria dependen de N, iteraciones, equipo y concurrencia. La llamada es síncrona.
 No son garantías de rendimiento de un servidor público.
+
+La advertencia principal resume tiempo, memoria y procesamiento y el máximo
+permitido. "Detalles de rendimiento" conserva el aviso técnico completo.
+El aviso adicional a partir de 50000 iteraciones permanece disponible.
 
 medir_rendimiento.py se incluye porque tests/test_compacto.py utiliza su función
 de referencia. Su benchmark es opcional, no se ejecuta al iniciar la app:
@@ -231,8 +275,13 @@ universal con detalles históricos no facilitados: faltan firmas/retornos antigu
 exactos de adaptadores de gráficos/evaluación, retorno vectorizado y constructor
 de ResultadoSimulacion para demostrar identidad de esos detalles.
 
-CONTENIDO DEL ZIP (26 ARCHIVOS)
-------------------------------
+La identidad CRN llega a calcular_crk mediante crk y a ambos motores mediante
+_calcular_indicadores. calcular_indicadores_vectorizados y los adaptadores de
+raíz reutilizan esas rutas. Histograma y CSV consumen los resultados; no tienen
+otra fórmula especial para calcular el percentil ni para producir CRN.
+
+ESTRUCTURA DE FUENTES NECESARIAS
+-------------------------------
 app.py
 indices.py
 simulacion.py
@@ -259,14 +308,31 @@ tests/test_evaluacion.py
 tests/test_app.py
 tests/test_compatibilidad.py
 tests/test_progreso.py
+tests/test_crn.py
+tests/test_crn_interfaz.py
+tests/test_claridad.py
+ENLACES.txt
+
+Esta estructura prevista tiene 30 archivos. El manifiesto y conteo definitivos
+se registran después de verificar el ZIP; la lista no acredita por sí sola un
+paquete generado ni su correspondencia con el repositorio.
 
 No hacen falta imágenes ni recursos externos para el arranque. Se excluyen
 ZIP anteriores, .venv, .git, cachés, temporales, resultados generados de pruebas,
 rendimiento.json, capturas históricas y el empaquetador de versiones anteriores.
 
+Después del punto de recuperación Git se retiraron 23 duplicados de raíz,
+cotejados byte a byte con las fuentes conservadas, dos ZIP antiguos inspeccionados
+y tres archivos regenerables: empaquetar.py, registro_pruebas.txt y
+rendimiento.json. Se retiraron cachés y carpetas duplicadas vacías. Tres documentos
+históricos se trasladaron a un archivo local fuera de entrega; no se destruyeron.
+Se conservan historial Git, entorno de desarrollo, evidencia y herramientas fuera
+de la carpeta canónica. Los adaptadores y el helper de rendimiento permanecen
+porque tienen usos comprobados. El candidato no contiene esos residuos.
+
 PUBLICACIÓN EN GITHUB Y STREAMLIT COMMUNITY CLOUD
 ------------------------------------------------
-Estado comprobado el 5 de octubre de 2026:
+Comprobaciones HISTÓRICAS de la publicación anterior, 5 de octubre de 2026:
   Cuenta GitHub reconocida por el conector: Jm7z.
   Repositorio público Taller_GrupoB: fuentes publicadas; 26 archivos cotejados
   byte a byte con la carpeta limpia de fuentes antes de esta actualización.
@@ -274,6 +340,8 @@ Estado comprobado el 5 de octubre de 2026:
   Rama comprobada: main; conector con permiso admin/push.
   Commit de código publicado y cotejado:
   0868937507fa00a2c7effe9dc4dabbc86514d4a6.
+  Commit documental final de esa entrega:
+  8a6206c77be2f8935587748f5e457c626ccff896.
   URL real de aplicación: https://taller-grupob.streamlit.app/
   Python seleccionado en Cloud: 3.12; versión exacta observada en logs: 3.12.15.
   Pins de requirements.txt instalados sin modificación; arranque registrado
@@ -281,21 +349,22 @@ Estado comprobado el 5 de octubre de 2026:
   Sharing comprobado: This app is public and searchable.
   Reinicio comprobado en logs: desconexión 17:35:15 UTC y arranque del servidor
   17:35:59.355 UTC (14:35:59.355 America/Santiago), el mismo día, con Python 3.12.15.
-  Tras el reinicio, una sesión nueva simuló 1000 mercados y completó el 100%.
+  Tras el reinicio, una sesión nueva simuló 1000 mercados y completó el 100 %.
   Acceso InPrivate/incógnito sin sesión: el usuario informó, tras Ctrl+F5,
   "Sí, ahora simula correctamente sin iniciar sesión". No se presenta como
   observación directa de una ventana privada realizada por la herramienta.
   Suite en Linux/Community Cloud: no ejecutada.
-  Documentación de cierre incluida junto a las fuentes en main; el resumen de
-  entrega identifica el commit final y el cotejo del ZIP con el repositorio.
+  Documentación de aquella entrega incluida junto a las fuentes en main.
+  Su ZIP de 26 archivos se cotejó con el commit documental mencionado.
   SHA exacto del proceso Cloud: pendiente; los logs disponibles no lo expusieron.
 El SHA anterior identifica el código cotejado, no demuestra por sí solo el SHA
 del proceso activo en Cloud. Python local 3.12.14 no coincide con el parche
 observado en Cloud. No se ha enviado ningún correo.
 
-Comprobaciones en la interfaz desplegada: N=4, k=2, 1000 iteraciones y semilla 42;
-ejemplo 40-30-20-10; CR2=70%, IHH interno=3000.0000000000005 puntos y percentil IHH
-17,1% (171 de 1000 mercados con IHH menor o igual). Se comprobó clasificación
+Comprobaciones de la interfaz del despliegue ANTERIOR: N=4, k=2, 1000 iteraciones
+y semilla 42;
+ejemplo 40-30-20-10; CR2=70 %, IHH interno=3000.0000000000005 puntos y percentil IHH
+17,1 % (171 de 1000 mercados con IHH menor o igual). Se comprobó clasificación
 Moderada incorrecta, Alta correcta y respuesta numérica CR2 70,00 correcta.
 El usuario informó mediante captura un error de callback inesperado, aunque
 otra sesión ejecutó correctamente la simulación y el código remoto coincidía.
@@ -304,13 +373,16 @@ usuario confirmó lo mismo sin sesión. No se modificaron las fuentes por este
 incidente: la firma del callback y el código publicado se cotejaron. La causa
 exacta del error no quedó demostrada; la recuperación observada no la demuestra.
 
-Otras comprobaciones realizadas en la aplicación remota:
-  - N=2,k=2,M=1000: distribución constante a precisión numérica. Cambiar a k=1
+Otras comprobaciones históricas de la aplicación remota, sin acreditar el nuevo
+parche ni sus nuevas ayudas:
+  - N=2,k=2,M=1000: distribución aparentemente constante. En esa versión CRN
+    conservaba residuos flotantes: esa dispersión ya está corregida localmente.
+    Cambiar a k=1
     y M=5000 marcó la muestra desactualizada; volver a simular funcionó.
   - N=100,k=100,M=5000: simulación correcta. El botón del ejemplo pasó de N=100
     a N=4, limitó k a 4 y bloqueó la comparación por muestra incompatible.
     Se volvió después a k=2 y M=1000.
-  - Edición manual 40->30: suma 90%, falta 10%; cuotas rechazadas, sin etiqueta
+  - Edición manual 40->30: suma 90 %, falta 10 %; cuotas rechazadas, sin etiqueta
     del caso y con respuestas bloqueadas. Se conservó la muestra y el tiempo
     de motor.
     Dos pulsaciones de caso aleatorio dieron cuotas diferentes, conservaron
@@ -328,17 +400,22 @@ Otras comprobaciones realizadas en la aplicación remota:
   - Hover del histograma IHH observado: Simulación, intervalo 2938,57-3152,53,
     109 mercados. Hover de la línea verificado en navegador: Caso: 3000 puntos
     (0-10000), con percentil 17,10 mostrado en su información emergente.
-  - Progreso final observado: 5000/5000, 100%. No se capturaron visualmente estados
+  - Progreso final observado: 5000/5000, 100 %. No se capturaron visualmente estados
     intermedios; el avance por lotes, callback y limpieza ante errores tienen
     cobertura en las 13 pruebas de tests/test_progreso.py incluidas en la suite.
-La confirmación del SHA exacto del proceso Cloud permanece pendiente porque
-los logs disponibles no lo expusieron. Las dos extracciones verificadas se
-describen en PRUEBAS; el resumen de entrega registra además el cotejo del ZIP
-definitivo y su ejecución tras la publicación de estos documentos.
+El SHA exacto del proceso Cloud no fue expuesto en los logs históricos.
+La publicación, comprobación pública y extracción del ZIP de la actualización
+actual quedan pendientes hasta registrar sus resultados reales.
+
+Antes de actualizar el proyecto se preservó el estado inicial pertinente en
+Git, commit 61d769c03ad507ae417b7a5c9892299618100cd6. Este es un punto local de
+recuperación; no se presenta como commit desplegado. El commit final y la
+correspondencia del nuevo ZIP con GitHub se registran después de verificarlos.
 
 La carpeta de fuentes preparada contiene únicamente archivos vigentes. Los
-módulos, fórmulas, generadores, cuatro series compactas, CSV y evaluación se
-conservan. requirements.txt no cambió. .gitignore se comprobó con git check-ignore:
+módulos, generadores, cuatro series compactas, CSV y evaluación se conservan;
+CRN aplica la identidad exacta explicada anteriormente. requirements.txt no
+cambió. .gitignore se comprobó históricamente con git check-ignore:
 entornos, cachés, temporales, logs, ZIP y secretos quedan excluidos; app.py,
 README.txt, requirements.txt, configuración y pruebas permanecen publicables.
 .streamlit/config.toml no fija dirección, puerto ni certificados: Cloud gestiona
@@ -398,10 +475,14 @@ Si git commit pide identidad, configurar user.name y user.email del repositorio
 con los datos de tu cuenta (se puede usar el correo noreply mostrado por GitHub).
 No se proporciona un correo personal ni se configura globalmente por defecto.
 Comprobar que el SHA local y remoto coinciden y abrir GitHub para revisar los
-26 archivos, estructura, Public y ausencia de secretos. No utilizar push --force.
+archivos del manifiesto vigente, estructura, Public y ausencia de secretos.
+No utilizar push --force.
 
 C. Desplegar en Streamlit (pasos de cuenta)
-1. Abrir https://share.streamlit.io e iniciar sesión personalmente. La pantalla
+1. Para este proyecto, abrir la aplicación EXISTENTE en https://share.streamlit.io.
+   Los cambios de main deben actualizar ese despliegue; no crear otra app.
+   Para reproducir la instalación en otra cuenta, iniciar sesión personalmente.
+   La pantalla
    de acceso vincula el inicio a sus términos: esa aceptación debe hacerla el
    usuario. Conectar GitHub en Workspaces > Connect GitHub account y autorizar
    Streamlit mediante su flujo oficial. Seleccionar el workspace Jm7z.
@@ -436,12 +517,20 @@ observados y cada resultado, incluyendo errores o pruebas pendientes:
   - CRk, IHH, ID e IE; unidades; histograma, línea, etiqueta, hover y percentil.
   - N=2 y N=100; cambios de k e iteraciones; progreso completadas/total.
   - Entrada manual de cuotas, iguales, ejemplo y caso aleatorio independiente.
-  - N=4,k=2,M=1000,semilla=42; cuotas 40,30,20,10: CR2=70%, IHH≈3000 puntos.
-    Anotar el percentil observado; la referencia local es 171/1000=17,1% con
+  - N=4,k=2,M=1000,semilla=42; cuotas 40,30,20,10: CR2=70 %, IHH≈3000 puntos.
+    Anotar el percentil observado; la referencia local es 171/1000=17,1 % con
     NumPy 2.3.5, no un valor que deba forzarse en Cloud.
+  - N=100,k=100,M=1000,semilla=42; cien cuotas de 1 %: CR100=100 % y percentil
+    exactamente 100 %. Confirmar ayuda de identidad, histograma constante,
+    marcador/etiqueta y valores originales de CSV.
+  - Ayuda de cada indicador y lectura del percentil con resultados reales.
+    Con IE, aclaración de mayor reparto; la evaluación conserva percentil IHH.
+  - Justificación de evaluación corta para N<=12 y resumen para N>12 con las
+    cinco mayores cuotas; desplegable con desarrollo y aportes completos.
+  - Advertencia breve de recursos, detalles técnicos y aviso desde 50000.
   - Clasificación Alta correcta y Baja/Moderada incorrectas; explicación de intervalos,
     aportes y precisión; CR2 numérico 70 y 60. Limpiar feedback al editar respuesta/caso.
-  - Cuotas inválidas (por ejemplo suma 90%) bloquean comparación/evaluación sin
+  - Cuotas inválidas (por ejemplo suma 90 %) bloquean comparación/evaluación sin
     normalización; modificar configuración invalida la muestra y obliga a simular.
   - Editar caso o elegir otro gráfico conserva muestra; evaluación siempre usa IHH.
   - Descargar ambos CSV: muestra con M filas, configuración/unidades correctas;
@@ -458,6 +547,20 @@ Según la documentación oficial consultada, hiberna tras 12 horas sin tráfico;
 un visitante autorizado puede despertarla. Puede haber espera inicial y pérdida
 de estado de sesiones. El ajuste local gatherUsageStats=false puede ser sobrescrito
 por Cloud y no prueba la configuración de telemetría del servicio.
+
+TRANSPARENCIA EN EL USO DE IA
+-----------------------------
+Esta aplicación se desarrolló con asistencia de IA para implementar y revisar
+código, pruebas, documentación y publicación. BITACORA.md registra el trabajo
+técnico; no sustituye la conversación compartida.
+Enlace público real conservado del historial:
+https://chatgpt.com/s/cx_6ac32e27e5188191ae8322c88acd137a
+Se abrió el contenido compartido, titulado "Crear índices de concentración".
+Es una instantánea histórica real; no se afirma que incluya los últimos turnos
+ni que esta bitácora sustituya ese contenido. ENLACES.txt reúne los tres enlaces.
+La herramienta abrió el contenido en el navegador disponible. Una petición HTTP
+anónima independiente recibió 403; no se afirma acceso anónimo comprobado a la
+conversación ni que esa petición reproduzca el comportamiento del navegador.
 
 FUENTES OFICIALES
 -----------------

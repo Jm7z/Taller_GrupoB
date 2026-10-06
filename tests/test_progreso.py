@@ -219,11 +219,12 @@ class TestProgresoInterfaz(unittest.TestCase):
         self.app.selectbox(key="indicador").select("IE").run()
         self.assertFalse(self.app.exception)
         self.assertIs(self.app.session_state["muestra"], muestra)
-        ayudas = [c.value for c in self.app.caption if "incluidos los empates" in c.value]
+        ayudas = [c.value for c in self.app.caption if "El percentil compara este caso" in c.value]
         self.assertEqual(len(ayudas), 1)
         self.assertIn("variabilidad estadística", ayudas[0])
         self.assertIn("mismo entorno", ayudas[0])
-        self.assertEqual(sum("Mayor entropía significa cuotas más repartidas" in e.value for e in self.app.info), 1)
+        self.assertEqual(sum("Se incluyen los empates" in e.value for e in self.app.markdown), 1)
+        self.assertEqual(sum("no significa mayor concentración" in e.value for e in self.app.info), 1)
 
 
 if __name__ == "__main__":

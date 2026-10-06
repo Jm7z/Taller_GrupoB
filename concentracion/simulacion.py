@@ -228,7 +228,7 @@ def _calcular_indicadores(
 
     n = cuotas.shape[1]
     if k == n:
-        np.sum(cuotas, axis=1, dtype=np.float64, out=salidas["crk"])
+        salidas["crk"].fill(1.0)
     else:
         trabajo[:] = cuotas
         trabajo.partition(n - k, axis=1)

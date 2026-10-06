@@ -28,6 +28,15 @@ from concentracion.simulacion import (
 )
 
 
+AYUDAS_INDICADORES = {
+    "CRk": "CRk muestra qué porcentaje del mercado reúnen las k empresas con mayores cuotas.",
+    "IHH": "El IHH suma los cuadrados de las cuotas. Un valor mayor indica mayor concentración.",
+    "ID": "El ID de García Alba mide qué tan concentrados están los aportes de las empresas al IHH.",
+    "IE": ("La entropía mide qué tan repartidas están las cuotas. Para el mismo N, "
+           "un valor mayor indica mayor diversidad y alcanza su máximo con cuotas iguales."),
+}
+
+
 ESTILO = """
 <style>
 .stMainBlockContainer { max-width: 1120px; padding-top: 2rem; padding-bottom: 3rem; }
@@ -259,6 +268,25 @@ def _mensaje_error_ihh(resultado):
     )
 
 
+def resumir_justificacion_ihh(cuotas_validadas, texto_ihh, justificacion_completa):
+    """N proporciones válidas y texto de IHH en puntos -> justificación str.
+
+    Hasta 12 empresas conserva el desarrollo recibido. Para más empresas
+    muestra las cinco cuotas mayores en %, sin recalcular IHH ni cambiar
+    las cuotas o la clasificación; texto_ihh conserva su precisión original.
+    """
+    if len(cuotas_validadas) <= 12:
+        return justificacion_completa
+    mayores = sorted((float(cuota) * 100.0 for cuota in cuotas_validadas), reverse=True)[:5]
+    lista = ", ".join(f"{valor:.10g}" for valor in mayores)
+    return (
+        f"El caso contiene {len(cuotas_validadas)} empresas. "
+        f"Sus cinco cuotas mayores son [{lista}] %. "
+        "Al sumar los cuadrados de todas las cuotas porcentuales, "
+        f"el IHH es {texto_ihh} puntos."
+    )
+
+
 def _mostrar_evaluacion(cuotas, muestra, vigente):
     """Estado separado del gráfico; invalida feedback por caso o simulación."""
     st.subheader("4. Evaluar el IHH del caso")
@@ -308,12 +336,20 @@ def _mostrar_evaluacion(cuotas, muestra, vigente):
     st.write(f"**IHH calculado:** {_formatear_ihh_evaluacion(resultado['ihh_puntos'])} puntos. "
              f"**Intervalo:** {_intervalo_ihh_presentado(resultado['clasificacion'])}.")
     st.caption(f"Valor interno sin redondear: {resultado['ihh_puntos']!r} puntos. {CONVENCION_FRONTERAS}")
-    st.write(resultado["justificacion"])
-    st.dataframe(pd.DataFrame({
+    st.write(resumir_justificacion_ihh(
+        cuotas, _formatear_ihh_evaluacion(resultado["ihh_puntos"]), resultado["justificacion"],
+    ))
+    tabla_aportes = pd.DataFrame({
         "Empresa": [f"Empresa {i + 1}" for i in range(len(cuotas))],
         "Cuota (%)": resultado["cuotas_porcentaje"],
         "Aporte al IHH (puntos)": resultado["aportes_ihh"],
-    }), hide_index=True, width="stretch")
+    })
+    if len(cuotas) > 12:
+        with st.expander("Desarrollo completo y aportes al IHH"):
+            st.write(resultado["justificacion"])
+            st.dataframe(tabla_aportes, hide_index=True, width="stretch")
+    else:
+        st.dataframe(tabla_aportes, hide_index=True, width="stretch")
     st.metric("Percentil real del IHH en la muestra vigente", f"{resultado['percentil_ihh']:.6g} %")
     st.write(resultado["explicacion_percentil"])
     st.info(
@@ -336,6 +372,7 @@ def main():
         "Indicador del histograma", ["CRk", "IHH", "ID", "IE"], key="indicador",
         help="Cambiar el indicador reutiliza la muestra existente.",
     )
+    columnas[0].caption(AYUDAS_INDICADORES[indicador])
     valor_n = columnas[1].number_input("Empresas (N)", min_value=2, max_value=100,
                                          value=None if "n" in st.session_state else 4, step=1, key="n")
     if valor_n is None:
@@ -398,10 +435,14 @@ def main():
         "Supone empresas simétricas y mercados hipotéticos independientes; "
         "no reproduce automáticamente un sector real."
     )
-    st.warning(ADVERTENCIA_RECURSOS)
-    st.caption(
-        f"Máximo del motor: {MAX_ITERACIONES:,} iteraciones; lotes de hasta 4096."
+    maximo_texto = f"{MAX_ITERACIONES:,}".replace(",", ".")
+    st.warning(
+        "Aumentar el número de empresas o de iteraciones incrementa el tiempo de respuesta "
+        "y el consumo de memoria y procesamiento. "
+        f"Máximo permitido: {maximo_texto} iteraciones."
     )
+    with st.expander("Detalles de rendimiento"):
+        st.write(ADVERTENCIA_RECURSOS)
     if iteraciones >= 50000:
         st.warning("Volumen alto: más latencia, procesamiento y memoria por sesión. "
                    "Las descargas CSV añaden trabajo al exportar; usuarios concurrentes consumen recursos adicionales.")
@@ -556,24 +597,32 @@ def main():
         percentil = percentil_empirico(serie, caso) if caso is not None else None
         if percentil is not None:
             st.metric("Percentil empírico del caso", f"{percentil:.2f} %")
+            nombre_indicador = f"CR{k}" if indicador == "CRk" else indicador
+            st.markdown(
+                f"**Cómo leerlo:** el **{percentil:.2f} %** de los mercados simulados "
+                f"tiene un valor de **{nombre_indicador}** menor o igual al de este caso. "
+                "Se incluyen los empates."
+            )
             st.caption(
-                "Cuenta los mercados simulados con indicador menor o igual al caso, incluidos los empates. "
+                "El percentil compara este caso con mercados simulados con el mismo N bajo el modelo "
+                "Dirichlet(1,…,1). No es un umbral normativo de concentración. "
                 "Depende de la muestra; aumentar las iteraciones reduce su variabilidad estadística. "
                 "Con el mismo caso, configuración y semilla, repetir en el mismo entorno permite reproducirlo."
             )
             if clave == "ie":
-                st.info("Mayor entropía significa cuotas más repartidas. Un percentil alto de IE "
-                        "indica un reparto más equilibrado respecto de los mercados simulados.")
+                st.info("Un percentil alto de entropía indica mayor entropía respecto de la muestra; "
+                        "no significa mayor concentración.")
         else:
             st.info("Corrige el caso para añadir su línea y su percentil al histograma.")
         figura = histograma_indicador(serie, clave, caso, percentil, k=k, ihh_en_puntos=True)
         if figura.layout.meta["constante"]:
             st.info("Distribución constante a precisión numérica: todas las observaciones se muestran en una barra.")
-            st.caption("El percentil usa los valores originales sin redondear; pequeñas diferencias de punto flotante pueden separar empates matemáticos.")
         elif figura.layout.meta["fuera_de_rango"]:
             st.info("El caso está fuera del rango observado. El eje se amplía para mostrarlo; su percentil es 0 % o 100 %.")
-        if clave == "crk" and k == n:
-            st.caption("Con k=N, CRk es 100 % para cualquier reparto; aquí no distingue niveles de concentración.")
+        if clave == "crk" and k == n and percentil is not None:
+            st.caption("Cuando k=N, CRk es 100 % en todos los mercados. Por eso no distingue niveles "
+                       "de concentración. Todos los valores empatan y, con la definición utilizada, "
+                       "el percentil es 100 %.")
         st.plotly_chart(figura, width="stretch", theme=None, key="histograma",
                         config={"displaylogo": False, "responsive": True})
 

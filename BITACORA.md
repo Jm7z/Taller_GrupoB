@@ -1,78 +1,117 @@
 # Bitácora técnica de Taller_GrupoB
 
-Registro público de cambios y verificaciones del proyecto. Las comprobaciones
-locales no acreditan funcionamiento en un despliegue remoto. Los detalles
-vigentes y pendientes están en COMPROBACIONES.md.
+Registro público de trabajo y verificaciones reales. COMPROBACIONES.md
+separa pruebas de código, observación de navegador y reportes del usuario.
+La bitácora registra asistencia de IA; no sustituye la conversación compartida.
 
-## Funcionalidades de la versión de partida
+## Versión de partida y publicación anterior
 
-- Cálculos en proporciones: CRk, IHH, dominancia de García Alba y Shannon.
-  Validación sin normalización, cierre atol=1e-10 y rtol=0.
-- Resultado completo disponible para la API; interfaz con cuatro series
-  compactas, ejecución por lotes, semilla opcional y generador independiente
-  para casos particulares. Progreso mediante callback opcional.
-- CSV diferidos, tarjetas, cuatro histogramas, línea y etiqueta del caso con
-  unidades y percentil que incluye empates.
-- Evaluación didáctica del IHH sin redondear fronteras; preguntas conceptuales
-  y numérica CRk. Bloqueos y limpieza por cambios de caso/configuración.
-- Feedback IHH con selección, intervalo, valor, motivo de exclusión y categoría
-  correcta; precisión suficiente junto a 1500/2500. Se prueban las seis
-  selecciones incorrectas y los valores adyacentes a ambas fronteras.
+La aplicación conserva cálculos en proporciones, cierre atol=1e-10/rtol=0,
+API completa y adaptadores, interfaz con cuatro series compactas por lotes,
+generador independiente para el caso, progreso mediante callback, CSV
+diferidos, tarjetas y cuatro histogramas con línea/etiqueta/hover.
 
-## Preparación para publicación — 5 de octubre de 2026
+La evaluación didáctica del IHH mantiene clasificación sin redondear fronteras,
+preguntas conceptuales y numérica CRk, bloqueos y limpieza de respuestas.
+La retroalimentación errónea indica selección, intervalo, valor calculado,
+motivo de exclusión y categoría correcta. Se conservan precisión, aportes por
+empresa y percentil IHH aunque se visualice otro indicador.
 
-Se preparó una carpeta limpia a partir de la entrega local vigente. Fuentes
-idénticas a la entrega de partida; se conservaron módulos, pruebas y los cinco
-pins de requirements.txt. No se modificaron fórmulas, unidades, generadores,
-límites ni lotes. La API y la interfaz siguen usando sus contratos actuales.
+El 5 de octubre de 2026 se publicó el repositorio
+https://github.com/Jm7z/Taller_GrupoB, main. Commit de código
+0868937507fa00a2c7effe9dc4dabbc86514d4a6; cierre documental
+8a6206c77be2f8935587748f5e457c626ccff896. Se cotejaron 26 archivos del ZIP anterior
+con lo publicado. Se conservó la configuración y los cinco pins.
 
-Se amplió .gitignore para entornos, cachés, temporales, resultados generados,
-ZIP y secretos. git check-ignore verificó 11 rutas excluidas y seis archivos
-necesarios publicables. La configuración TOML conserva el tema y headless,
-sin fijar address, port ni certificados locales. Streamlit local la reconoce.
+La aplicación recibió la URL real https://taller-grupob.streamlit.app/.
+Los logs mostraron Python 3.12.15 en Linux; Python 3.12 fue seleccionado
+explícitamente. Sharing confirmó visibilidad pública. No se ejecutó la suite
+dentro de Cloud y los logs no expusieron el SHA exacto de su proceso.
 
-Se añadió README.md para la portada de GitHub y se conservaron en README.txt
-las instrucciones completas de Windows. Se documentaron autenticación oficial,
-despliegue con Python 3.12, registros, acceso público, límites e hibernación.
-Los enlaces y versiones remotos solo se registran cuando se comprueban.
+Un usuario reportó error de callback_progreso. Firma local/remota y llamadas
+admitían el callback; después de un reinicio de Cloud una sesión nueva simuló.
+El usuario confirmó lo mismo desde una ventana privada sin iniciar sesión.
+La causa exacta del incidente no quedó demostrada; no se cambió código para
+atribuirle una solución causal. Evidencia y límites en COMPROBACIONES.md.
 
-Pruebas desde la carpeta preparada: 116 aprobadas en 17,685 s con Python
-3.12.14 del entorno local existente. Se comprobaron las rutas de importación
-de app y paquete. No fue una instalación nueva ni una ejecución en Cloud.
+Aquella publicación comprobó los cuatro indicadores, N=2/N=100, ejemplo,
+edición inválida, aleatorio, estado, progreso final, respuestas y CSV reales.
+El ejemplo N=4/k=2/M=1000/semilla 42 produjo CR2=70 %,IHH≈3000 y percentil IHH 17,1 %.
+Se revisaron escritorio 960×900 y móvil emulado 390×844, sin teléfono físico.
+El ZIP final de aquella entrega aprobó 116 pruebas aisladas en 20,011 s desde
+una extracción nueva, reinstalación offline, pip check y arranque HTTP 200.
+Estos resultados no acreditan automáticamente las correcciones siguientes.
 
-Se publicaron y cotejaron los 26 archivos en el repositorio público
-https://github.com/Jm7z/Taller_GrupoB, rama main. Commit del código:
-0868937507fa00a2c7effe9dc4dabbc86514d4a6. La aplicación recibió la URL real
-https://taller-grupob.streamlit.app/. Python 3.12 se seleccionó explícitamente;
-los logs confirmaron Python 3.12.15, los cinco pins y el arranque en Linux.
-Sharing confirmó visibilidad pública. No se ejecutó la suite dentro de Cloud.
+## Corrección puntual de CRN: trabajo local verificado
 
-Un usuario reportó error del parámetro callback_progreso. La firma y los archivos
-publicados se cotejaron; el motor vigente admitía el callback y sus llamadas
-pasaban. Se reinició Cloud y comprobó una sesión nueva. El usuario confirmó
-simulación correcta sin sesión en ventana privada tras recargar. La causa exacta
-del proceso anterior no quedó demostrada; no se modificó el código ni los pins.
+Se reprodujo el defecto en N=100,k=100,M=1000,semilla 42 y cuotas iguales:
+CR simulado entre 0,9999999999999989 y 1,0000000000000009, percentil 67,2 %.
+La comparación inclusiva del percentil era correcta; diferencias flotantes
+de las sumas separaban observaciones matemáticamente empatadas.
 
-En Cloud se comprobaron los cuatro indicadores, N=2/N=100, cambios de k/M,
-progreso final, ejemplo, edición manual inválida, aleatorio independiente,
-CSV y feedback correcto/incorrecto. El ejemplo N4/k2/M1000/semilla42 produjo
-CR2=70 %, IHH≈3000 puntos y percentil IHH=17.1 % (171/1000). Se revisaron
-histogramas a 960×900 y 390×844; no se usó un teléfono físico. Límites y
-pendientes, incluido el SHA no expuesto por los logs, en COMPROBACIONES.md.
+Se aplicó exclusivamente la identidad CRN=1 después de validar:
+crk escalar devuelve 1,0 con k=N; _calcular_indicadores llena la serie con 1,0.
+Los motores completo/compacto y adaptadores reutilizan esas rutas.
+El percentil pasó a 100,0 % por la comparación ordinaria<=; no se introdujo
+tolerancia general, normalización, redondeo ni cambio en las cuotas.
 
-Se verificó un paquete de26 archivos mediante CRC, lista sin duplicados y
-cotejo de bytes. Desde una extracción nueva se reinstalaron los pins con
-paquetes cacheados y pip check aprobó. Entorno independiente Python3.12.14:
-116 pruebas aisladas aprobadas en20.166 s. Servidor extraído: HTTP200/healthok;
-el navegador ejecutó ejemplo y simulación1000. El cierre documental conserva
-las fuentes ejecutables y pruebas verificadas; el ZIP de cierre se vuelve a
-comprobar antes de entregar. No se incluyen entornos, cachés ni evidencia generada.
+Se añadieron regresiones para N=2/4/100, cuotas iguales/desiguales, ambos motores,
+adaptadores, invalidación, histograma, CSV y AppTest. Una expectativa previa
+que exigía CRN distinto de 1 describía el defecto y se actualizó solamente en
+ese punto. Las 116 pruebas previas y 12 regresiones aprobaron: 128 en 26,212 s,
+Python 3.12.14. La comparación de 135 resultados antes/después confirmó que
+k<N, cuotas, IHH, ID, entropía y sus percentiles se conservaron.
+No se publicó ni desplegó ese parche durante la tarea puntual.
 
-Otra extracción nueva del paquete de cierre repitió la reinstalación de sus
-requisitos y pip check, y aprobó 116 pruebas aisladas en19.300 s. Servidor
-extraído: raíz y salud HTTP200. Solo documentación cambió respecto del candidato.
-La entrega definitiva coteja nuevamente esos archivos con el repositorio y
-excluye ZIP anteriores, entornos, cachés, temporales, secretos y carpetas Git.
+## Cierre actual autorizado
 
-Esta bitácora pública incluye únicamente información técnica del proyecto.
-No reproduce conversaciones, enlaces de conversación ni registros internos.
+Antes de modificar o retirar archivos se dejó un punto de recuperación local
+en Git: 61d769c03ad507ae417b7a5c9892299618100cd6. No se reescribe historial,
+no se usa force push y no se borran servicios, repositorios ni datos externos.
+
+Se implementan únicamente las ayudas por indicador, lectura real del percentil,
+aviso CRN exacto, resumen de justificación IHH para N>12 con detalle completo,
+y advertencia breve de recursos con detalles técnicos. Se conserva la app
+vigente, el diseño, las fórmulas restantes, validaciones, generador, lotes,
+límites, firmas, CSV, muestra compacta y evaluación. El aviso que explicaba
+la dispersión artificial de CRN queda obsoleto y se retira.
+
+README.txt y README.md separan evidencia histórica de esta actualización.
+La suite posterior a las ayudas aprobó 136 de 136 pruebas en 21,542 s,
+Python 3.12.14/NumPy 2.3.5; test_claridad.py aprobó 8 de 8 en 2,916 s por
+separado. Tests de progreso actualizaron la ubicación esperada de la explicación
+de empates (markdown) y la nueva aclaración de IE; se conservaron sus exigencias
+sobre callbacks, lotes, resultados y limpieza ante errores.
+COMPROBACIONES.md deja pendientes publicación/commit final, comprobación pública,
+acceso anónimo e integridad/instalación/pruebas/arranque desde el nuevo ZIP.
+La limpieza conserva adaptadores y medir_rendimiento.py por sus usos;
+los archivos de utilidad incierta deben conservarse e identificarse.
+
+Después del respaldo se retiraron 23 archivos de raíz duplicados, cotejados
+byte a byte con los conservados, y dos ZIP antiguos inspeccionados. Se retiraron
+empaquetar.py, registro_pruebas.txt y rendimiento.json por ser regenerables,
+cachés y carpetas duplicadas vacías. Tres documentos históricos se trasladaron
+al archivo local, sin destruirlos. Historial Git, entorno de desarrollo, evidencia
+y herramientas se conservaron fuera de la carpeta canónica y del paquete.
+
+El candidato de prepublicación tuvo 30 archivos, CRC válido y bytes idénticos
+a las fuentes canónicas. Se extrajo en una carpeta nueva y se creó otro venv
+Python 3.12.14, sin paquetes de sistema/usuario. Se instalaron 40 paquetes
+offline desde wheels existentes y los requisitos extraídos, manteniendo los
+pins; pip check informó No broken requirements found. Las 136 pruebas pasaron
+en 21,9598442 s, cero errores/fallos, con imports solo de la extracción y
+dependencias solo del entorno nuevo. No se presenta esa ejecución como prueba
+del ZIP definitivo ni del despliegue aún pendiente. El servidor extraído en
+127.0.0.1:8513 respondió HTTP200 en raíz/salud; el navegador cargó controles y
+simuló el caso predeterminado N4/k2/M1000/semilla42 con cuotas iguales, CR2=50 %
+y percentil0 %, progreso1000/1000 al100 %, línea/etiqueta y sin error.
+
+El enlace real conservado del historial de conversación es
+https://chatgpt.com/s/cx_6ac32e27e5188191ae8322c88acd137a.
+Se abrió su contenido, titulado "Crear índices de concentración", página
+SharedCodexchat con mensajes de etapas previas. Es una instantánea histórica:
+no se afirma que incluya necesariamente los turnos finales de esta tarea.
+Una petición HTTP anónima independiente recibió 403. El acceso se observó en
+el navegador disponible; no se afirma que se haya comprobado sin sesión.
+El enlace y la bitácora cumplen funciones diferentes: la segunda no sustituye
+el contenido compartido para la trazabilidad de IA.

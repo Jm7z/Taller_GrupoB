@@ -97,6 +97,8 @@ def crk(cuotas: Iterable[float], k: int) -> float:
         raise TypeError("k debe ser un entero.")
     if not 1 <= k <= len(valores):
         raise ValueError("k debe estar entre 1 y el número de cuotas.")
+    if k == len(valores):
+        return 1.0
     return math.fsum(sorted(valores, reverse=True)[:int(k)])
 
 

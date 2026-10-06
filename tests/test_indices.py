@@ -89,9 +89,9 @@ class TestIndices(unittest.TestCase):
             with self.subTest(desviacion=desviacion):
                 cuotas = [0.5, 0.5 + desviacion]
                 self.assertEqual(validar_cuotas(cuotas), tuple(cuotas))
-                self.assertEqual(crk(cuotas, 2), math.fsum(cuotas))
+                self.assertEqual(crk(cuotas, 2), 1.0)
                 self.assertEqual(ihh(cuotas), math.fsum(s ** 2 for s in cuotas))
-                self.assertNotEqual(crk(cuotas, 2), 1)
+                self.assertEqual(crk(cuotas, 1), max(cuotas))
         for desviacion in (-2e-10, 2e-10, 5e-10):
             with self.subTest(desviacion=desviacion):
                 with self.assertRaises(ValueError):

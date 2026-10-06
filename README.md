@@ -3,47 +3,68 @@
 Aplicación educativa en Python, Streamlit y Plotly para explorar CRk, IHH,
 dominancia de García Alba y entropía de Shannon en mercados hipotéticos.
 
-Repositorio público: [Jm7z/Taller_GrupoB](https://github.com/Jm7z/Taller_GrupoB).
-Aplicación desplegada: [taller-grupob.streamlit.app](https://taller-grupob.streamlit.app/).
-El ajuste público, el arranque y la simulación tras reiniciar Cloud se
-comprobaron el 5 de octubre de 2026. El usuario confirmó, tras Ctrl+F5 en una
-ventana privada: «Sí, ahora simula correctamente sin iniciar sesión». El acceso
-anónimo fue reportado por el usuario; la herramienta no observó esa ventana.
-La causa exacta del incidente de callback no quedó demostrada y no se cambió
-el código para resolverlo.
-
-El manual completo de instalación en Windows, ejecución local, fórmulas,
-supuestos, límites, APIs y publicación está en [README.txt](README.txt).
-La evidencia real y lo pendiente se registran en
-[COMPROBACIONES.md](COMPROBACIONES.md).
+- Repositorio: [Jm7z/Taller_GrupoB](https://github.com/Jm7z/Taller_GrupoB).
+- Aplicación existente: [taller-grupob.streamlit.app](https://taller-grupob.streamlit.app/).
+- Manual completo de Windows, fórmulas, unidades, supuestos, límites y API:
+  [README.txt](README.txt).
+- Evidencia real y pendientes: [COMPROBACIONES.md](COMPROBACIONES.md).
 
 ```powershell
 py -3.12 -m venv .venv
 .\.venv\Scripts\Activate.ps1
 python -m pip install -r requirements.txt
+python -m pip check
 python -m unittest discover -s tests -v
 python -m streamlit run app.py --server.address 127.0.0.1 --server.port 8501
 ```
 
-Abrir http://127.0.0.1:8501. Desde una extracción nueva del ZIP candidato se
-reinstalaron los pins offline y pip check aprobó en un entorno independiente
-Python 3.12.14; sus 116 pruebas aisladas pasaron en 20,166 segundos. El servidor
-respondió HTTP 200 y el navegador real simuló el ejemplo sin excepción.
-En Cloud se observaron Python 3.12.15, los pins
-instalados y el arranque, sin ejecutar allí la suite. El ejemplo 40–30–20–10,
-con k=2, 1000 iteraciones y semilla 42, mostró CR2=70 %, IHH≈3000 puntos y
-percentil IHH=17,1 % (171/1000). Se probaron también N=2 y N=100, cambios de
-configuración, cuotas inválidas, casos aleatorios, respuestas y descarga de
-ambos CSV. Los cuatro histogramas se revisaron en escritorio y viewport móvil
-390x844, sin teléfono físico. La barra activa de Plotly puede cubrir parte del
-título en móvil. El hover de la línea del IHH se comprobó en el navegador;
-el avance intermedio del progreso tiene cobertura de código, sin captura visual.
+Abrir http://127.0.0.1:8501. Si PowerShell impide activar el entorno, el manual
+explica cómo usar cmd o su python.exe directamente. Python local utilizado:
+3.12.14 de 64 bits. Pins intactos: NumPy 2.3.5, pandas 3.0.1, Plotly 6.9.0,
+Streamlit 1.65.0 y PyArrow 21.0.0.
 
-La documentación final se publica y reempaqueta conservando el mismo código,
-configuración y pruebas. En una segunda extracción nueva se reinstalaron los
-pins, pip check aprobó y las 116 pruebas aisladas pasaron en 19,300 s; servidor
-extraído con raíz y salud HTTP 200. El resumen de entrega identifica el commit
-publicado, el ZIP definitivo cotejado y su comprobación adicional.
-El SHA exacto del proceso Cloud sigue sin comprobarse
-porque los logs no lo expusieron. Consultar el estado detallado en README.txt y
-COMPROBACIONES.md; las pruebas locales no sustituyen las del despliegue.
+La corrección local de CRk aplica **CRN=1,0 exacto después de validar**. Para
+N=100, k=100, 1000 iteraciones, semilla 42 y cien cuotas de 1 %, el percentil pasó
+de 67,2 % a **100,0 %**. No se cambió la definición del percentil: cuenta valores
+menores o iguales e incluye todos los empates. CRk para k<N, cuotas generadas,
+IHH, ID y entropía conservaron los resultados de la comparación antes/después.
+El parche local aprobó **128 pruebas en 26,212 s**; sus regresiones comprueban
+ambos motores, adaptadores, exportaciones, histogramas y Streamlit AppTest.
+
+El cierre actual incorpora ayudas por indicador, lectura del percentil,
+justificación resumida para más de 12 empresas y advertencia breve de recursos.
+La suite actual aprobó **136 de 136 pruebas en 21,542 s**; las ocho nuevas
+pruebas de claridad aprobaron también por separado en 2,916 s. La publicación,
+comprobación pública actual y extracción del ZIP final siguen pendientes de
+verificación; todavía no se presentan como aprobadas.
+
+El candidato de prepublicación tiene 30 archivos, CRC válido y bytes cotejados
+con las fuentes. Desde una extracción nueva y un entorno independiente Python
+3.12.14 se instalaron 40 paquetes offline desde sus requisitos; pip check aprobó.
+Las **136 pruebas pasaron en 21,9598442 s** sin errores ni fallos, importando solo
+fuentes extraídas y dependencias del entorno nuevo. Esta comprobación no acredita
+todavía el ZIP definitivo ni el nuevo despliegue.
+La app extraída respondió HTTP200 en raíz/salud y el navegador cargó controles
+y simuló el caso predeterminado sin error, con progreso1000/1000 al100 %,
+línea/etiqueta y CR2=50 %/percentil0 % para las cuatro cuotas iguales.
+
+La publicación anterior del 5 de octubre de 2026 usó Python 3.12.15 en Cloud.
+Allí se comprobó el ejemplo 40–30–20–10 con k=2: CR2=70 %, IHH≈3000 puntos y
+percentil IHH 17,1 % (171/1000). El usuario confirmó acceso y simulación desde una
+ventana privada sin iniciar sesión; la herramienta no observó esa ventana.
+Las pruebas de esa entrega, incluida su extracción con 116 pruebas aprobadas,
+no acreditan por sí solas esta actualización. El SHA interno de Cloud no
+apareció en los logs y no se ejecutó la suite dentro de Linux Cloud.
+
+Se mantiene el mismo diseño, motor compacto por lotes, controles, CSV y
+evaluación. La clasificación didáctica usa IHH en puntos; su percentil siempre
+usa la serie IHH aunque se elija otro histograma. La app no determina
+automáticamente una conducta anticompetitiva.
+
+La [bitácora técnica](BITACORA.md) documenta la asistencia de IA y trabajo real.
+La [conversación compartida](https://chatgpt.com/s/cx_6ac32e27e5188191ae8322c88acd137a)
+se abrió y mostró "Crear índices de concentración". Es una instantánea histórica
+real y no necesariamente incluye los últimos turnos. La bitácora no sustituye
+la conversación compartida; los enlaces se reúnen en [ENLACES.txt](ENLACES.txt).
+El contenido se observó en el navegador disponible; una petición HTTP anónima
+independiente recibió 403. No se presenta su acceso anónimo como comprobado.

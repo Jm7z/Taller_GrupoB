@@ -1,0 +1,19 @@
+TALLER GRUPO B — ENLACES REALES
+
+Aplicación pública:
+https://taller-grupob.streamlit.app/
+
+Repositorio público (rama main):
+https://github.com/Jm7z/Taller_GrupoB
+
+Conversación compartida sobre el desarrollo con IA:
+https://chatgpt.com/s/cx_6ac32e27e5188191ae8322c88acd137a
+
+El 5 de octubre de 2026 se abrió este enlace y se observó el contenido de
+«Crear índices de concentración». Es una instantánea histórica de la
+conversación: no se afirma que incluya los turnos o correcciones posteriores.
+BITACORA.md registra el trabajo técnico y no sustituye este enlace.
+
+El commit definitivo y su correspondencia con el ZIP se identifican en el
+resumen de entrega. COMPROBACIONES.md distingue los resultados ejecutados
+de los límites de comprobación.
