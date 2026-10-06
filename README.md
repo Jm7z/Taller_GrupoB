@@ -34,9 +34,17 @@ ambos motores, adaptadores, exportaciones, histogramas y Streamlit AppTest.
 El cierre actual incorpora ayudas por indicador, lectura del percentil,
 justificación resumida para más de 12 empresas y advertencia breve de recursos.
 La suite actual aprobó **136 de 136 pruebas en 21,542 s**; las ocho nuevas
-pruebas de claridad aprobaron también por separado en 2,916 s. La publicación,
-comprobación pública actual y extracción del ZIP final siguen pendientes de
-verificación; todavía no se presentan como aprobadas.
+pruebas de claridad aprobaron también por separado en 2,916 s. El código está
+publicado en [main, commit 9f5d425](https://github.com/Jm7z/Taller_GrupoB/commit/9f5d425a4ff793f4b18f2c33019516f48a6e1a0a), con 30 archivos cotejados contra las fuentes.
+El paquete de cierre se verificó en otra extracción nueva y otro entorno
+Python 3.12.14 aislado:40 paquetes instalados offline desde sus requisitos y
+pip check aprobado; **136/136 pruebas sin errores/fallos en 22,8258215 s**.
+Servidor extraído en 8514: raíz/salud HTTP 200, controles visibles y simulación
+N=100/k=100/M=1000/semilla 42/cuotas iguales con CR100=100 % y percentil 100 %,
+progreso completo, línea y etiqueta del caso. Este registro corresponde al
+paquete previo a la última edición documental. El resumen final identifica
+el archivo entregado, commit/cotejo de bytes y su verificación exacta, sin
+atribuir a estos documentos un hash o tiempo posterior no observado.
 
 El candidato de prepublicación tiene 30 archivos, CRC válido y bytes cotejados
 con las fuentes. Desde una extracción nueva y un entorno independiente Python
@@ -44,9 +52,34 @@ con las fuentes. Desde una extracción nueva y un entorno independiente Python
 Las **136 pruebas pasaron en 21,9598442 s** sin errores ni fallos, importando solo
 fuentes extraídas y dependencias del entorno nuevo. Esta comprobación no acredita
 todavía el ZIP definitivo ni el nuevo despliegue.
-La app extraída respondió HTTP200 en raíz/salud y el navegador cargó controles
-y simuló el caso predeterminado sin error, con progreso1000/1000 al100 %,
-línea/etiqueta y CR2=50 %/percentil0 % para las cuatro cuotas iguales.
+La app extraída respondió HTTP 200 en raíz/salud y el navegador cargó controles
+y simuló el caso predeterminado sin error, con progreso 1000/1000 al 100 %,
+línea/etiqueta y CR2=50 %/percentil 0 % para las cuatro cuotas iguales.
+
+Tras la actualización automática se observó una sesión con CR100 percentil 67,2 %.
+Se reinició el despliegue existente y una sesión nueva comprobó **CR100=100 % y
+percentil 100 %**. Logs del arranque 2026-10-06 00:19:22.304 UTC: Python 3.12.15 y
+pins intactos. CSV de 1000 simulaciones: todos los CR100 exactos 100 %; caso 100
+cuotas exactas de 1 %. La comparación con extracción local dio diferencia máxima
+0,0 en los indicadores. Evaluación N=100 mostró Baja/IHH 100 puntos/percentil 0 %,
+resumen y detalle completo. El ejemplo volvió a N=4/k=4 y bloqueó la muestra;
+con k=2 y nueva simulación confirmó CR2=70 %, IHH≈3000 y percentil IHH 17,1 %.
+Otra pestaña nueva tras el reinicio revisó los cuatro indicadores y sus ayudas,
+ejes, unidades, leyenda, línea y etiqueta: percentiles CRk 23,4 %, IHH 17,1 %, ID 20,5 %,
+IE 82,3 %. Con IE seleccionado, evaluación Alta conservó IHH 17,1 % (171/1000)
+y el desarrollo de las cuatro cuotas; cambiar indicador conservó la muestra.
+
+Se comprobó Sharing público y HTTP 200 anónimo en raíz/iframe sin credenciales.
+El usuario confirmó esta versión desde la ventana privada Edge solicitada,
+sin iniciar sesión, con N=100/k=100/M=1000/semilla 42 y cuotas iguales: CR100=100,00 %,
+percentil 100,00 %, sin errores visibles. Es un reporte del usuario, no observación
+directa de su ventana privada por la herramienta.
+El SHA interno de Cloud no está expuesto y no se ejecutó allí la suite.
+
+El cotejo de las versiones publicadas 8a6206c y 9f5d425 confirmó cambios mínimos
+en cálculos: CRN escalar devuelve 1,0 y vectorizado usa fill(1) tras validar.
+evaluacion.py, graficos.py, requirements.txt y config.toml permanecieron
+idénticos byte a byte. Las ayudas se implementaron en la aplicación vigente.
 
 La publicación anterior del 5 de octubre de 2026 usó Python 3.12.15 en Cloud.
 Allí se comprobó el ejemplo 40–30–20–10 con k=2: CR2=70 %, IHH≈3000 puntos y

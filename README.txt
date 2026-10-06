@@ -20,9 +20,9 @@ INSTALACIÓN LOCAL EN WINDOWS
 ----------------------------
 1. Instalar Python 3.12 de 64 bits con pip y el lanzador py. La versión utilizada
    para las pruebas locales es Python 3.12.14. En los logs del despliegue se
-   observó Python 3.12.15 en Linux en el despliegue anterior. La versión del
-   nuevo despliegue debe confirmarse en sus propios logs. La suite no se
-   ejecutó en Community Cloud; no se deben equiparar ambas comprobaciones.
+   observó Python 3.12.15 en Linux, también en el nuevo arranque del
+   2026-10-06 a las 00:19:22.304 UTC. La suite no se ejecutó en Community
+   Cloud; no se deben equiparar las pruebas locales con el arranque remoto.
 2. Extraer TODO Taller_GrupoB.zip en una carpeta nueva. No ejecutar dentro del
    ZIP. Abrir PowerShell en esa carpeta, donde se encuentran app.py y
    requirements.txt. Si es necesario, entrar con:
@@ -89,9 +89,9 @@ CR simulado entre 0,9999999999999989 y 1,0000000000000009; después, cada CRN es
 Estos resultados corresponden al parche local anterior a las nuevas ayudas.
 Después de incorporarlas, la suite actual aprobó 136 de 136 pruebas en
 21,542 s; test_claridad.py aprobó 8 de 8 en 2,916 s. El entorno local fue
-Python 3.12.14 con NumPy 2.3.5. La publicación, comprobación pública e
-instalación/ejecución desde una extracción nueva del ZIP definitivo permanecen
-pendientes hasta documentar su ejecución real. Una extracción de la publicación
+Python 3.12.14 con NumPy 2.3.5. La publicación y las comprobaciones públicas
+actuales se describen más abajo. El paquete de cierre también se verificó desde
+una extracción nueva; el resultado se registra a continuación. Una extracción de la publicación
 anterior aprobó 116 pruebas en 20,011 s, instalación offline y pip check en un
 entorno independiente, y arranque HTTP 200; no acredita la nueva versión.
 
@@ -106,9 +106,32 @@ esa extracción y las dependencias desde su entorno nuevo. Esto verifica el
 candidato de prepublicación, no el ZIP definitivo ni el despliegue actualizado.
 El servidor iniciado desde esa extracción respondió HTTP 200 en raíz y salud,
 y el navegador mostró los controles y simuló el caso predeterminado sin error:
-N=4,k=2,M=1000,semilla42, cuotas iguales, CR2=50 %, percentil0 %, progreso
-1000/1000 al100 %, línea y etiqueta del caso visibles. La verificación usó
-127.0.0.1:8513; la instalación normal del manual utiliza el puerto8501.
+N=4,k=2, M=1000,semilla 42, cuotas iguales, CR2=50 %, percentil 0 %, progreso
+1000/1000 al 100 %, línea y etiqueta del caso visibles. La verificación usó
+127.0.0.1:8513; la instalación normal del manual utiliza el puerto 8501.
+
+CIERRE: PAQUETE EXTRAÍDO Y ENTORNO NUEVO
+---------------------------------------
+El ZIP de cierre comprobado antes de esta última actualización documental tenía
+30 archivos, CRC válido y bytes idénticos a las fuentes. Se extrajo en otra
+carpeta nueva, extraido_cierre_actual, y se creó un nuevo entorno .venv_final
+Python 3.12.14 aislado, sin paquetes del sistema ni del usuario. Se instalaron
+40 paquetes offline utilizando su requirements.txt EXTRAÍDO, pins intactos;
+pip check aprobó. La suite completa aprobó 136/136, cero errores/fallos, en
+22,8258215 s. Las fuentes procedieron solo de esa nueva extracción y las
+dependencias solo de su nuevo entorno.
+
+El servidor propio de esa extracción, en 127.0.0.1:8514, respondió HTTP 200 en
+raíz y salud/ok. El navegador real renderizó controles y simuló N=100/k=100,
+1000 iteraciones, semilla 42 y cuotas iguales: CR100=100 %, percentil 100 %,
+progreso 1000/1000, línea y etiqueta visibles, sin error. Código, pruebas,
+dependencias y configuración no cambian por esta última edición documental.
+
+El resumen final de entrega identifica el archivo definitivo, su commit y
+cotejo de bytes, CRC/manifiesto y la comprobación de su extracción exacta.
+Estos documentos no inventan el hash, el tiempo ni el resultado de una
+verificación posterior a su propia publicación y no incorporan un SHA
+autorreferencial. Se distingue ese cierre externo del paquete aquí comprobado.
 
 DEPENDENCIAS FIJADAS
 -------------------
@@ -313,9 +336,10 @@ tests/test_crn_interfaz.py
 tests/test_claridad.py
 ENLACES.txt
 
-Esta estructura prevista tiene 30 archivos. El manifiesto y conteo definitivos
-se registran después de verificar el ZIP; la lista no acredita por sí sola un
-paquete generado ni su correspondencia con el repositorio.
+Esta estructura tiene 30 archivos, cotejados en los paquetes de prepublicación
+y cierre. El resumen final identifica el manifiesto del archivo entregado y
+su correspondencia comprobada con el repositorio; la lista por sí sola no es
+una prueba de integridad ni de publicación.
 
 No hacen falta imágenes ni recursos externos para el arranque. Se excluyen
 ZIP anteriores, .venv, .git, cachés, temporales, resultados generados de pruebas,
@@ -375,11 +399,11 @@ exacta del error no quedó demostrada; la recuperación observada no la demuestr
 
 Otras comprobaciones históricas de la aplicación remota, sin acreditar el nuevo
 parche ni sus nuevas ayudas:
-  - N=2,k=2,M=1000: distribución aparentemente constante. En esa versión CRN
+  - N=2,k=2, M=1000: distribución aparentemente constante. En esa versión CRN
     conservaba residuos flotantes: esa dispersión ya está corregida localmente.
     Cambiar a k=1
     y M=5000 marcó la muestra desactualizada; volver a simular funcionó.
-  - N=100,k=100,M=5000: simulación correcta. El botón del ejemplo pasó de N=100
+  - N=100,k=100, M=5000: simulación correcta. El botón del ejemplo pasó de N=100
     a N=4, limitó k a 4 y bloqueó la comparación por muestra incompatible.
     Se volvió después a k=2 y M=1000.
   - Edición manual 40->30: suma 90 %, falta 10 %; cuotas rechazadas, sin etiqueta
@@ -404,13 +428,67 @@ parche ni sus nuevas ayudas:
     intermedios; el avance por lotes, callback y limpieza ante errores tienen
     cobertura en las 13 pruebas de tests/test_progreso.py incluidas en la suite.
 El SHA exacto del proceso Cloud no fue expuesto en los logs históricos.
-La publicación, comprobación pública y extracción del ZIP de la actualización
-actual quedan pendientes hasta registrar sus resultados reales.
+La actualización actual del código está publicada y comprobada en Cloud.
+La extracción del paquete de cierre se verificó como se describe en PRUEBAS.
+El resumen final identifica el archivo definitivo y su cotejo. El usuario confirmó la
+prueba interactiva actual desde la ventana privada solicitada, sin iniciar sesión.
 
 Antes de actualizar el proyecto se preservó el estado inicial pertinente en
 Git, commit 61d769c03ad507ae417b7a5c9892299618100cd6. Este es un punto local de
 recuperación; no se presenta como commit desplegado. El commit final y la
 correspondencia del nuevo ZIP con GitHub se registran después de verificarlos.
+
+ACTUALIZACIÓN PÚBLICA COMPROBADA
+-------------------------------
+Código publicado en main mediante avance normal, sin force push:
+9f5d425a4ff793f4b18f2c33019516f48a6e1a0a, padre 8a6206c77be2f8935587748f5e457c626ccff896.
+Los 30 archivos remotos se recuperaron y cotejaron: idénticos a las fuentes.
+Árbol completo, sin truncar: ad354e723090cf39d6493cb2ad2b4bc4baaebd21.
+Un commit posterior de cierre documental se identifica en el resumen de entrega;
+no se incorpora una supuesta referencia autorreferencial en estos documentos.
+
+Cloud notificó actualización a las00:15:49 UTC del 6 de octubre (21:15:49 del 5
+en America/Santiago). La interfaz mostraba las ayudas nuevas, pero una sesión
+aún produjo el percentil CR100 defectuoso 67,2 %. No se consideró aprobado.
+Tras reiniciar el servicio existente, logs: desconexión 00:19:04 UTC y nuevo
+arranque Uvicorn 2026-10-06 00:19:22.304 UTC (21:19:22.304 del 5 local).
+La instalación mediante uv registró37 paquetes más 4 de rich gestionados por
+Cloud; Python 3.12.15 y los cinco pins del proyecto permanecieron intactos.
+No se afirma la causa exacta del estado anterior ni un SHA interno del servidor:
+los logs no expusieron ese SHA. La suite completa no se ejecutó dentro de Cloud.
+
+Una sesión nueva simuló el caso predeterminado. Para N=100/k=100/M=1000/semilla 42,
+cien cuotas de 1 %, mostró CR100=100 % y percentil 100 %, histograma constante,
+línea y etiqueta 100 %; se revisó escritorio 960×900 y móvil emulado 390×844.
+Los CSV descargados tuvieron 1000×11 y 100×2: todos los CR porcentuales fueron
+exactamente 100 y todas las cuotas del caso 1 %. La lectura round_trip comparada
+con la extracción local tuvo diferencia máxima 0,0 en CR, IHH, ID, IE e IE/lnN;
+metadatos N=100/k=100/semilla 42/NumPy 2.3.5.
+
+La evaluación del caso N=100 aceptó Baja: IHH 100 puntos y percentil IHH 0 %.
+El resumen mostró N y las cinco mayores cuotas; el desplegable conservó el
+desarrollo y la tabla completa de 100 empresas. Ejemplo desde N=100 estableció
+N=4/k=4, bloqueó la muestra incompatible y limpió feedback. Al pasar a k=2 y
+simular de nuevo, CR2=70 %, IHH interno 3000.0000000000005 puntos, percentiles
+CRk 23,4 % e IHH 17,1 %. La selección Moderada se rechazó con su intervalo y el
+desarrollo íntegro de las cuatro cuotas.
+
+Otra pestaña nueva después del reinicio comprobó los cuatro indicadores del
+ejemplo: CRk 23,4 %, IHH 17,1 %, ID 20,5 % e IE 82,3 %; sus ayudas, unidades,
+ejes, leyenda, línea y etiqueta se mostraron sin error. La etiqueta ID presentó
+0,393333 adimensional e IE 1,279854 nats. Cambiar el gráfico conservó el tiempo
+del motor 0,001709 s. Con IE visualizado, Alta fue correcta y mantuvo IHH
+3000.0000000000005 puntos, percentil 17,1 % (171/1000) y las cuatro cuotas.
+
+Settings General confirmó Python 3.12 y Sharing confirmó This app is public
+and searchable. El2026-10-06T00:22:05 UTC, una petición HTTP independiente a
+la raíz e iframe de la app respondió200 con jar vacía, sin credenciales.
+Esto comprueba carga HTTP anónima. Además, el usuario probó esta actualización
+en la ventana privada Edge solicitada, sin iniciar sesión, N=100/k=100/M=1000,
+semilla 42 y cuotas iguales, y respondió: "Sí: la aplicación publicada mostró
+CR100 = 100,00 % y percentil = 100,00 %, sin errores visibles en esta prueba."
+Esta comprobación interactiva fue reportada por el usuario; la herramienta
+no observó directamente su ventana privada.
 
 La carpeta de fuentes preparada contiene únicamente archivos vigentes. Los
 módulos, generadores, cuatro series compactas, CSV y evaluación se conservan;
@@ -517,10 +595,10 @@ observados y cada resultado, incluyendo errores o pruebas pendientes:
   - CRk, IHH, ID e IE; unidades; histograma, línea, etiqueta, hover y percentil.
   - N=2 y N=100; cambios de k e iteraciones; progreso completadas/total.
   - Entrada manual de cuotas, iguales, ejemplo y caso aleatorio independiente.
-  - N=4,k=2,M=1000,semilla=42; cuotas 40,30,20,10: CR2=70 %, IHH≈3000 puntos.
+  - N=4,k=2, M=1000,semilla=42; cuotas 40,30,20,10: CR2=70 %, IHH≈3000 puntos.
     Anotar el percentil observado; la referencia local es 171/1000=17,1 % con
     NumPy 2.3.5, no un valor que deba forzarse en Cloud.
-  - N=100,k=100,M=1000,semilla=42; cien cuotas de 1 %: CR100=100 % y percentil
+  - N=100,k=100, M=1000,semilla=42; cien cuotas de 1 %: CR100=100 % y percentil
     exactamente 100 %. Confirmar ayuda de identidad, histograma constante,
     marcador/etiqueta y valores originales de CSV.
   - Ayuda de cada indicador y lectura del percentil con resultados reales.
