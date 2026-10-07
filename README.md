@@ -4,7 +4,7 @@ Aplicación educativa en Python, Streamlit y Plotly para explorar la concentraci
 de mercados hipotéticos mediante simulaciones y gráficos interactivos.
 
 **[Abrir la aplicación](https://taller-grupob.streamlit.app/)** ·
-[Manual completo](README.txt) · [Enlaces del proyecto](ENLACES.txt)
+[Instrucciones de ejecución](README.txt) · [Enlaces del proyecto](ENLACES.txt)
 
 ## Funcionalidades
 
@@ -15,19 +15,18 @@ de mercados hipotéticos mediante simulaciones y gráficos interactivos.
 
 ## Instalación en Windows
 
-Requiere Python 3.11 o superior. Para seguir estos comandos, usa Python 3.12
-y abre PowerShell en la carpeta del proyecto.
+Requiere Python 3.12 de 64 bits con pip. Abre PowerShell o Símbolo del sistema
+en la carpeta del proyecto.
 
 ```powershell
 py -3.12 -m venv .venv
-.\.venv\Scripts\Activate.ps1
-python -m pip install -r requirements.txt
-python -m streamlit run app.py --server.address 127.0.0.1 --server.port 8501
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+.\.venv\Scripts\python.exe -m streamlit run app.py --server.address 127.0.0.1 --server.port 8501
 ```
 
 Abre [localhost:8501](http://127.0.0.1:8501) en el navegador.
-Si PowerShell bloquea la activación del entorno, consulta las alternativas
-del [manual](README.txt).
+Mantén la terminal abierta mientras usas la aplicación y pulsa `Ctrl+C` para detenerla.
+Las instrucciones para macOS y Linux están en [README.txt](README.txt).
 
 ## Uso
 
@@ -39,17 +38,17 @@ del [manual](README.txt).
 
 ## Pruebas
 
-Con el entorno activado, ejecuta:
+Desde la carpeta del proyecto, ejecuta en Windows:
 
 ```powershell
-python -m pip check
-python -m unittest discover -s tests -v
+.\.venv\Scripts\python.exe -m pip check
+.\.venv\Scripts\python.exe -m unittest discover -s tests -v
 ```
 
 ## Documentación
 
-El [README.txt](README.txt) contiene las fórmulas, unidades, supuestos,
-límites, instrucciones de instalación y referencia de la API.
+El [README.txt](README.txt) contiene las instrucciones de instalación,
+ejecución y pruebas en Windows, macOS y Linux.
 El código de cálculo está en `concentracion/` y las pruebas en `tests/`.
 
 La clasificación de concentración es didáctica y utiliza el IHH en puntos.
